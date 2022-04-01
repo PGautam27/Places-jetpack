@@ -7,3 +7,9 @@ fun ParkingSpotEntity.toParkingSpot(): ParkingSpot{
         lat, lng, id
     )
 }
+
+fun ParkingSpot.toParkingSpotEntity(): ParkingSpotEntity{
+    return ParkingSpotEntity(
+        lat, lng, id
+    )
+}
