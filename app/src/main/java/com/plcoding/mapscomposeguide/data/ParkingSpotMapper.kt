@@ -1,4 +1,9 @@
 package com.plcoding.mapscomposeguide.data
 
-class ParkingSpotMapper {
+import com.plcoding.mapscomposeguide.domain.ParkingSpot
+
+fun ParkingSpotEntity.toParkingSpot(): ParkingSpot{
+    return ParkingSpot(
+        lat, lng, id
+    )
 }
