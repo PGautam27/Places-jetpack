@@ -13,7 +13,8 @@ import com.plcoding.mapscomposeguide.domain.repository.ParkingSpotRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class MapsViewModel(
+@HiltViewModel
+class MapsViewModel @Inject constructor(
     private val repository: ParkingSpotRepository
 ): ViewModel() {
 
@@ -29,20 +30,19 @@ class MapsViewModel(
         }
     }
 
-    fun onEvent(event: MapEvent){
-        when(event){
-            is MapEvent.ToggleFalloutMap ->{
+    fun onEvent(event: MapEvent) {
+        when(event) {
+            is MapEvent.ToggleFalloutMap -> {
                 state = state.copy(
                     properties = state.properties.copy(
-                        mapStyleOptions = if (state.isFalloutMap){
+                        mapStyleOptions = if(state.isFalloutMap) {
                             null
-                        }else MapStyleOptions(MapStyle.json),
+                        } else MapStyleOptions(MapStyle.json),
                     ),
                     isFalloutMap = !state.isFalloutMap
                 )
             }
-
-            is MapEvent.OnMapLongClick ->{
+            is MapEvent.OnMapLongClick -> {
                 viewModelScope.launch {
                     repository.insertParkingSpot(ParkingSpot(
                         event.latLng.latitude,
@@ -50,14 +50,11 @@ class MapsViewModel(
                     ))
                 }
             }
-
             is MapEvent.OnInfoWindowLongClick -> {
                 viewModelScope.launch {
                     repository.deleteParkingSpot(event.spot)
                 }
             }
-
         }
     }
-
 }
